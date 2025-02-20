@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f4f4f4;
+        }
+        .dashboard-container, .course-page-container, .important-dates-container {
+            margin-top: 50px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        }
+        .dashboard-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .card {
+            margin: 10px;
+        }
+        .card-title {
+            font-weight: bold;
+        }
+        .section-title {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+        .navbar {
+            background-color: #343a40;
+        }
+        .navbar a {
+            color: white;
+        }
+        .btn {
+            margin-top: 10px;
+        }
+        footer {
+            background-color: #343a40;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg">
+    <a class="navbar-brand" href="#">Course Portal</a>
+    <div class="ml-auto">
+        <a class="nav-link" href="/profile" style="color: white;">View Profile</a>
+        <a class="nav-link" href="/" style="color: white;">Back to Home</a>
+        <a class="nav-link notification-icon" href="#notifications" style="color: white;">
+            Notifications <i class="fas fa-bell"></i>
+        </a>
+    </div>
+</nav>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<div class="container mt-5">
+    <h2>Welcome, {{ user_name }}!</h2>
+
+    <div class="card mt-4">
+        <div class="card-header">
+            <h3>Your Courses</h3>
+        </div>
+        <div class="card-body">
+            {% if courses %}
+                <ul class="list-group">
+                {% for course in courses %}
+                    <li class="list-group-item">
+                        <a href="{{ url_for('course_page', course_id=course.course_id) }}">
+                            {{ course.course_title }}
+                        </a>
+                        <span class="badge badge-primary float-right">{{ course.status }}</span>
+                    </li>
+                {% endfor %}
+                </ul>
+            {% else %}
+                <p>No courses enrolled yet.</p>
+            {% endif %}
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5 class="card-title">Join New Course</h5>
+                <a href="/join_course" class="btn btn-primary">Enroll Now</a>
+            </div>
+        </div>
+    </div>
+    
+
+
+    <a href="/logout" class="btn btn-danger mt-3">Logout</a>
+
+
+    
+<!-- Important Dates Section -->
+<div class="container mt-5 important-dates-container">
+    <div class="card">
+        <div class="card-header section-title">
+            <h4>Important Dates</h4>
+        </div>
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Event</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for date in important_dates %}
+                    <tr>
+                        <td>{{ date.event }}</td>
+                        <td>{{ date.date }}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="2">No important dates available.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Announcements Section -->
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header section-title">
+            <h4>Announcements</h4>
+        </div>
+        <div class="card-body">
+            <ul>
+                {% for announcement in announcements %}
+                    <li>{{ announcement.announcement }}</li>
+                {% else %}
+                    <li>No announcements available.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer>
+    <p>&copy; 2024 Course Portal. All rights reserved.</p>
+</footer>
+
+</body>
+</html>

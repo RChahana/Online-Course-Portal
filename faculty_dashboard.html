@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f4f4f9;
+        }
+        .navbar {
+            background-color: #007bff;
+        }
+        .navbar a {
+            color: white;
+        }
+        .welcome {
+            background-color: #007bff;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        .dashboard-section {
+            margin-top: 20px;
+        }
+        .card {
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .card-header {
+            background-color: #007bff;
+            color: white;
+        }
+        footer {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg">
+    <a class="navbar-brand" href="#">Course Portal</a>
+    <a class="nav-link" href="/logout" style="color: white;">Logout</a> <!-- Logout Button -->
+</nav>
+
+<!-- Welcome Section -->
+<div class="welcome">
+    <h2>Welcome, {{ faculty_name }}!</h2>
+    <p>Your dashboard to manage courses and interact with students.</p>
+</div>
+
+<div class="container dashboard-section">
+    <div class="row">
+        <!-- Upload Course Content Section -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Upload Course Content</h4>
+                </div>
+                <div class="card-body">
+                    <p>Upload your course materials in a zip file format (HTML pages inside).</p>
+                    <form action="/upload_content" method="POST" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="courseContent">Select Zip File</label>
+                            <input type="file" class="form-control-file" id="courseContent" name="courseContent" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Upload Content</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Course Handled Section -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Course Handled</h4>
+                </div>
+                <div class="card-body">
+                    <p>List of courses you are currently handling:</p>
+                    <ul>
+                        {% for course in courses %}
+                            <li>{{ course.course_id }} - {{ course.course_title }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Create Test Section -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Create a Test</h4>
+                </div>
+                <div class="card-body">
+                    <form action="/create_test" method="POST">
+                        <div class="form-group">
+                            <label for="testId">Test ID</label>
+                            <input type="text" class="form-control" id="testId" name="testId" placeholder="Enter Test Id" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="testTitle">Test Title</label>
+                            <input type="text" class="form-control" id="testTitle" name="testTitle" placeholder="Enter test title" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="questionCount">Number of Questions</label>
+                            <input type="number" class="form-control" id="questionCount" name="questionCount" min="1" max="100" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="testDuration">Test Duration (in minutes)</label>
+                            <input type="number" class="form-control" id="testDuration" name="testDuration" min="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="randomize">Randomize Questions</label>
+                            <select class="form-control" id="randomize" name="randomize" required>
+                                <option value="yes">Yes</option>
+                                <option value="no">No</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Create Test</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Feedback Section -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Provide Feedback for Questions</h4>
+                </div>
+                <div class="card-body">
+                    <form action="/submit_feedback" method="POST">
+                        <div class="form-group">
+                            <label for="questionId">Question ID</label>
+                            <input type="text" class="form-control" id="questionId" name="questionId" placeholder="Enter question ID" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="feedback">Feedback/Explanation</label>
+                            <textarea class="form-control" id="feedback" name="feedback" rows="4" placeholder="Provide feedback or explanation" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit Feedback</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notifications Section -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Send Notifications</h4>
+                </div>
+                <div class="card-body">
+                    <form action="/send_notifications" method="POST">
+                        <div class="form-group">
+                            <label for="notification">Notification Message</label>
+                            <textarea class="form-control" id="notification" name="notification" rows="4" placeholder="Enter notification message" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Send Notification</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Evaluate Student Section -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Evaluate Student</h4>
+                </div>
+                <div class="card-body">
+                    <form action="/evaluate_student" method="POST">
+                        <div class="form-group">
+                            <label for="StudentId">Student Id</label>
+                            <input type="text" class="form-control" id="StudentId" name="StudentId" placeholder="Enter Student Id" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="testId">Test ID</label>
+                            <input type="text" class="form-control" id="testId" name="testId" placeholder="Enter Test ID" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Evaluate</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Feedback from Students Section -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Feedback from Students</h4>
+                </div>
+                <div class="card-body">
+                    <p>Access and review feedback from students about the course and tests.</p>
+                    <!-- Update the href using Flask's url_for to correctly link to the view_feedback route -->
+                    <a href="{{ url_for('view_feedback') }}" class="btn btn-primary">View Feedback</a>                    
+                </div>
+            </div>
+        </div>        
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer>
+    &copy; 2024 Course Portal. All rights reserved.
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f4f4f9;
+        }
+        .navbar {
+            background-color: #343a40;
+        }
+        .navbar a {
+            color: white;
+        }
+        .welcome {
+            background-color: #007bff;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .section-title {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+        .card {
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .discussion-board, .notifications, .course-material {
+            margin-top: 20px;
+        }
+        .discussion-board textarea {
+            resize: none;
+        }
+        footer {
+            background-color: #343a40;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        .btn {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg">
+    <a class="navbar-brand" href="#">Course Portal</a>
+    <a class="nav-link" href="/dashboard" style="color: white;">Back to Dashboard</a>
+</nav>
+
+<!-- Welcome Section -->
+<div class="welcome">
+    <h2>Course: {{ course.course_title }}</h2>
+    <p>Welcome to the course page. Please check out the guidelines, materials, and interact with peers in the discussion board.</p>
+</div>
+
+<div class="container">
+    <!-- Course Guidelines -->
+    <div class="card">
+        <div class="card-header section-title">
+            <h4>Course Guidelines</h4>
+        </div>
+        <div class="card-body">
+            <ul>
+                <li>Prerequisites: {{ course.prerequisites }}</li>
+                <li>Credits: 3</li>
+                <li>Topics Covered: {{ course.topics_covered }}</li>
+                <li>Overall Rating: {{ course.overall_rating }} / 5</li>
+                <li>Duration: From {{ course.created_date }} to {{ course.end_date }}</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Notifications Section -->
+<div class="card notifications">
+    <div class="card-header section-title">
+        <h4>Notifications</h4>
+    </div>
+    <div class="card-body">
+        {% if announcements %}
+            <ul>
+                {% for announcement in announcements %}
+                    <li><strong>Announcement:</strong> {{ announcement.announcement }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No announcements available for this course.</p>
+        {% endif %}
+    </div>
+</div>
+
+    <!-- Course Materials Section -->
+    <div class="card course-material">
+        <div class="card-header section-title">
+            <h4>Course Materials</h4>
+        </div>
+        <div class="card-body">
+            <ul>
+                <li><a href="#">Lecture 1: Introduction to Data Science</a></li>
+                <li><a href="#">Lecture 2: Data Preprocessing</a></li>
+                <li><a href="#">Lecture 3: Exploratory Data Analysis</a></li>
+                <li><a href="#">Assignment 1: Data Cleaning (Submit by October 15th)</a></li>
+                <li><a href="#">Quiz 1: Statistics Basics</a></li>
+            </ul>
+        </div>
+    </div>
+    <!-- Evaluation Pattern Section -->
+    <div class="card evaluation-pattern">
+        <div class="card-header section-title">
+            <h4>Evaluation Pattern</h4>
+        </div>
+        <div class="card-body">
+            {% if evaluation %}
+            <p><strong>Pattern:</strong> {{ evaluation.pattern }}</p>
+            {% else %}
+            <p>No evaluation pattern available for this course.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Discussion Board Section -->
+    <div class="card discussion-board">
+        <div class="card-header section-title">
+            <h4>Discussion Board</h4>
+        </div>
+        <div class="card-body">
+            <h5>Post a Question or Comment:</h5>
+            <form action="/post_discussion" method="POST">
+                <div class="form-group">
+                    <textarea class="form-control" id="discussionPost" name="discussionPost" rows="4" placeholder="Type your question or comment here..." required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Post</button>
+            </form>
+
+            <hr>
+
+            <h5>Recent Discussions:</h5>
+            <ul>
+                <li><strong>Alice:</strong> How do I clean missing data in pandas?</li>
+                <li><strong>Bob:</strong> Can someone explain how random forests work?</li>
+                <!-- More discussions as needed -->
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer>
+    &copy; 2024 Course Portal. All rights reserved.
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+

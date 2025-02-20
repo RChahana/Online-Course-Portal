@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join New Course</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f4f4f4;
+        }
+        .container {
+            margin-top: 50px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Available Courses</h2>
+    <ul class="list-group mt-4">
+        {% if courses %}
+            {% for course in courses %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <a href="{{ url_for('course_page', course_id=course.course_id) }}">
+                        {{ course.course_title }}
+                    </a>
+                    <a href="{{ url_for('register_course', course_id=course.course_id) }}" class="btn btn-success btn-sm">Register</a>
+                </li>
+            {% endfor %}
+        {% else %}
+            <li class="list-group-item">No available courses to join.</li>
+        {% endif %}
+    </ul>
+    <a href="/dashboard" class="btn btn-secondary mt-3">Back to Dashboard</a>
+</div>
+
+</body>
+</html>
