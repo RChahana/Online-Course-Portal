@@ -23,12 +23,20 @@ The **Online Course Portal** is a web-based platform that allows students to reg
 
 ## 📂 Database Schema
 ### 🔸 Tables:
-- `student(student_id, name, email, password)`
+- `student(student_id, student_name)`
+- `student_course(student_id, course_id, status)`
 - `faculty(faculty_id, faculty_name, institute_name)`
 - `administrator(admin_id, admin_name)`
 - `courses(course_id, course_title, credits, duration, language, faculty_id)`
+- `course_details(cd_id, created_date, end_date, overall_rating, topics_covered, prerequisites)`
+- `registeration(user_id, user_name, password)`
+- `announcement(announcement_id, announcement)`
+- `announcement_course(A_id, course_id)`
+- `test_score(student_id, course_id, test_title, score int)`
+- `evaluation(eval_id, credits, pattern))`
 - `admin_course(admin_id, course_id, announcement_id)`
 - `admin_faculty(admin_id, faculty_id)`
+- `admin_student(admin_id, student_id)`
 - `feedback(feedback_id, course_id, student_id, rating, feedback)`
 
 ## 🔗 Setup Instructions
@@ -36,7 +44,7 @@ The **Online Course Portal** is a web-based platform that allows students to reg
 Ensure you have the following installed:
 - Python 3.x
 - MySQL
-- Flask and required dependencies (`pip install -r requirements.txt`)
+- Flask
 
 
 
